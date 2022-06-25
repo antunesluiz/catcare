@@ -50,8 +50,11 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
+                                        <BreezeDropdownLink :href="route('user.profile')" method="get" as="button">
+                                            Perfil
+                                        </BreezeDropdownLink>
                                         <BreezeDropdownLink :href="route('logout')" method="post" as="button">
-                                            Log Out
+                                            Sair
                                         </BreezeDropdownLink>
                                     </template>
                                 </BreezeDropdown>
