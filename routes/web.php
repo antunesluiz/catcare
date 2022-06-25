@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,4 +29,14 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::group(['prefix' => 'user'], function() {
+        Route::get('profile', [UserController::class, 'profile'])
+            ->name('user.profile');
+
+        Route::post('update', [UserController::class, 'update'])
+            ->name('user.update');
+    });
+});
+
+require __DIR__ . '/auth.php';
