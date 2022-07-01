@@ -1,6 +1,6 @@
-# Food Time
+# Cat Care
 
-Sistema web para controle da alimentação do meu gato.
+Sistema web para controle dos hábitos e afins do meu gato.
 
 ## Pré requisitos
 Pré requisitos obrigatórios de ambiente e pacotes que devem ser adicionados
