@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserUpdateProfileFormRequest;
-use App\Providers\RouteServiceProvider;
+use Exception;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class UserController extends Controller
 {
     /**
-     * Display the profile view.
+     * Show the form for editing the specified resource.
      *
-     * @return \Inertia\Response
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function profile()
+    public function edit()
     {
-        return Inertia::render('Profile');
+        return Inertia::render('User/edit');
     }
 
     /**
@@ -28,15 +28,27 @@ class UserController extends Controller
      */
     public function update(UserUpdateProfileFormRequest $request)
     {
-        $user = Auth::user();
+        $request->authenticate();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
+        try {
+            $user = auth()->user();
 
-        $user->save();
+            $user->name = $request->name;
+            $user->email = $request->email;
 
-        event(new Registered($user));
-        
-        return redirect(RouteServiceProvider::HOME);
+            if ($request->password) {
+                $user->password = bcrypt($request->password);
+            }
+
+            $user->save();
+
+            event(new Registered($user));
+        } catch (Exception $exception) {
+            return Inertia::render('User/edit', [
+                'errors' => ['Perfil salvo sem sucesso!']
+            ]);
+        }
+
+        return redirect()->route('user.edit');;
     }
 }

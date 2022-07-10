@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CatController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -25,18 +26,16 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::group(['prefix' => 'user'], function() {
-        Route::get('profile', [UserController::class, 'profile'])
-            ->name('user.profile');
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('edit', [UserController::class, 'edit'])
+            ->name('user.edit');
 
         Route::post('update', [UserController::class, 'update'])
             ->name('user.update');
     });
+
+    Route::resource('cats', CatController::class);
 });
 
 require __DIR__ . '/auth.php';
