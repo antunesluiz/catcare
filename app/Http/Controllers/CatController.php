@@ -18,7 +18,7 @@ class CatController extends Controller
     public function index()
     {
         return Inertia::render('Cats/index', [
-            'cats' => CatResource::collection(auth()->user()->cats)
+            'cats' => CatResource::collection(auth()->user()->cats()->paginate(8))
         ]);
     }
 
@@ -53,7 +53,7 @@ class CatController extends Controller
         ]);
 
         return Inertia::render('Cats/index', [
-            'cats' => CatResource::collection($user->cats)
+            'cats' => CatResource::collection($user->cats()->paginate(8))
         ]);
     }
 
