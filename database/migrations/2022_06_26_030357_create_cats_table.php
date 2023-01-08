@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('birth');
             $table->float('weight');
             $table->string('picture');
+            $table->boolean('is_favorite')->default(false);
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

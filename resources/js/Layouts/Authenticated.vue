@@ -117,15 +117,6 @@ const showingNavigationDropdown = ref(false);
                         <div class="shrink-0 flex items-center">
                             <slot name="header" />
                         </div>
-
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
-                            <!-- Settings Dropdown -->
-                            <div class="ml-3 relative">
-                                <div class="shrink-0 flex items-center">
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </header>
@@ -136,9 +127,8 @@ const showingNavigationDropdown = ref(false);
 
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                            <div class="pt-6 ml-2">
+                            <div class="pt-6 ml-2 justify-end flex mr-6" v-if="$slots.action">
                                 <slot name="action" />
-
                             </div>
 
                             <div class="p-6 bg-white border-b border-gray-200">

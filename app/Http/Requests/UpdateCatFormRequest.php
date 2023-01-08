@@ -5,11 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class UserUpdateProfileFormRequest extends FormRequest
+class UpdateCatFormRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +28,11 @@ class UserUpdateProfileFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'name'  => ['required', 'string']
+            'name'          => 'string',
+            'breed'         => 'string',
+            'birth'         => 'date',
+            'weight'        => 'numeric',
+            'is_favorite'   => 'boolean'
         ];
     }
 
@@ -66,7 +68,7 @@ class UserUpdateProfileFormRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('cat.throttle', [
+            'name' => trans('cat.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ]),
@@ -80,6 +82,6 @@ class UserUpdateProfileFormRequest extends FormRequest
      */
     public function throttleKey()
     {
-        return Str::lower($this->input('email')) . '|' . $this->ip();
+        return Str::lower($this->input('name')) . '|' . $this->ip();
     }
 }

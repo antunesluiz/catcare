@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateCatFormRequest;
+use App\Http\Requests\UpdateCatFormRequest;
 use App\Http\Resources\CatResource;
 use App\Models\Cat;
 use Illuminate\Http\Request;
@@ -60,7 +61,7 @@ class CatController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Cat  $cat
      * @return \Illuminate\Http\Response
      */
     public function show(Cat $cat)
@@ -73,10 +74,10 @@ class CatController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Cat  $cat
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cat $cat)
     {
         //
     }
@@ -84,22 +85,32 @@ class CatController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  App\Http\Requests\UpdateCatFormRequest  $request
+     * @param  Cat  $cat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCatFormRequest $request, Cat $cat)
     {
-        //
+        $cat->update($request->only([
+            'name',
+            'breed',
+            'birth',
+            'weight',
+            'is_favorite'
+        ]));
+
+        return Inertia::render('Cats/index', [
+            'cats' => CatResource::collection(auth()->user()->cats()->paginate(8))
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Cat  $cat
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Cat $cat)
     {
         //
     }

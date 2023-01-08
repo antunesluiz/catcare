@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CatController;
+use App\Http\Controllers\Invokable\FavoriteCat;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserUpdateProfileFormRequest;
+use App\Http\Requests\UpdateUserProfileFormRequest;
 use Exception;
 use Illuminate\Auth\Events\Registered;
 use Inertia\Inertia;
@@ -23,13 +23,11 @@ class UserController extends Controller
     /**
      * Update user data.
      *
-     * @param UserUpdateProfileFormRequest $request
+     * @param UpdateUserProfileFormRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserUpdateProfileFormRequest $request)
+    public function update(UpdateUserProfileFormRequest $request)
     {
-        $request->authenticate();
-
         try {
             $user = auth()->user();
 
@@ -41,8 +39,6 @@ class UserController extends Controller
             }
 
             $user->save();
-
-            event(new Registered($user));
         } catch (Exception $exception) {
             return Inertia::render('User/edit', [
                 'errors' => ['Perfil salvo sem sucesso!']

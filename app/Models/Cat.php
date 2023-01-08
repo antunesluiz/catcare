@@ -20,7 +20,8 @@ class Cat extends Model
         'breed',
         'birth',
         'weight',
-        'picture'
+        'picture',
+        'is_favorite'
     ];
 
     /**
@@ -50,7 +51,10 @@ class Cat extends Model
         'age'
     ];
 
-    public function getAgeAttribute()
+    /**
+     * Get age attribute from birthdate
+     */
+    public function getAgeAttribute(): string
     {
         return Carbon::parse($this->attributes['birth'])->diff(Carbon::now())->format('%y anos e %m meses');
     }
